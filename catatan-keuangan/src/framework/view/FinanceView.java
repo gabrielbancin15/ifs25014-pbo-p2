@@ -91,11 +91,11 @@ public class FinanceView {
             return;
         }
 
-        presenter.showSortedTransactions(useCase.sortTransactions(option), useCase.getBalance());
+        presenter.showSortedTransactions(useCase.sortTransactions(option));
     }
 
     private void showBalance() {
-        System.out.printf("Saldo saat ini: Rp %.0f%n", useCase.getBalance());
+        presenter.showBalance(useCase.getBalance());
     }
 
     private void removeTransaction() {
