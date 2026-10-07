@@ -20,15 +20,15 @@ public class ItemView {
             presenter.showItems(useCase.getAllItems());
             printMenu();
             String input = InputUtil.input("Pilih");
-            switch (input) {
-                case "1" -> addItem();
-                case "2" -> updateItem();
-                case "3" -> searchItem();
-                case "4" -> sortItem();
-                case "5" -> removeItem();
-                case "x" -> running = false;
-                default -> presenter.showInvalidChoice();
-            }
+                switch (input) {
+                    case "1" -> addItem();
+                    case "2" -> updateItem();
+                    case "3" -> searchItem();
+                    case "4" -> sortItem();
+                    case "5" -> removeItem();
+                    case "x" -> running = false;
+                    default -> presenter.showInvalidChoice();
+                }
             if (running)
                 System.out.println();
         }
@@ -49,20 +49,35 @@ public class ItemView {
         String name = InputUtil.input("Nama (x Jika Batal)");
         if (name.equals("x"))
             return;
+        if (name.isBlank()) {
+            presenter.showError("Nama barang tidak boleh kosong!");
+            return;
+        }
 
         String strQuantity = InputUtil.input("Jumlah");
         if (strQuantity.equals("x"))
             return;
 
-        Integer quantity = parseQuantity(strQuantity);
-        if (quantity == null || quantity <= 0) {
-            presenter.showInvalidQuantity();
+        // Parsing jumlah dipusatkan di InputUtil
+        int quantity;
+        try {
+            quantity = Integer.parseInt(strQuantity.trim());
+            if (quantity <= 0) {
+                presenter.showError("Jumlah stok tidak valid!");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            presenter.showError("Jumlah stok tidak valid!");
             return;
         }
 
         String category = InputUtil.input("Kategori (x Jika Batal)");
         if (category.equals("x"))
             return;
+        if (category.isBlank()) {
+            presenter.showError("Kategori tidak boleh kosong!");
+            return;
+        }
 
         presenter.showAddSuccess(useCase.addItem(name, quantity, category));
     }
@@ -73,16 +88,26 @@ public class ItemView {
         if (strId.equals("x"))
             return;
 
-        Integer id = parseId(strId);
-        if (id == null)
+        // Parsing ID dipusatkan di InputUtil
+        int id;
+        try {
+            id = Integer.parseInt(strId.trim());
+        } catch (NumberFormatException e) {
+            presenter.showError("ID tidak valid!");
             return;
+        }
 
         String strQuantity = InputUtil.input("Jumlah Baru (Kosongkan jika tidak ingin mengubah)");
         Integer quantity = null;
         if (!strQuantity.isBlank()) {
-            quantity = parseQuantity(strQuantity);
-            if (quantity == null || quantity <= 0) {
-                presenter.showInvalidQuantity();
+            try {
+                quantity = Integer.parseInt(strQuantity.trim());
+                if (quantity <= 0) {
+                    presenter.showError("Jumlah stok tidak valid!");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                presenter.showError("Jumlah stok tidak valid!");
                 return;
             }
         }
@@ -129,31 +154,18 @@ public class ItemView {
         if (strId.equals("x"))
             return;
 
-        Integer id = parseId(strId);
-        if (id == null)
+        int id;
+        try {
+            id = Integer.parseInt(strId.trim());
+        } catch (NumberFormatException e) {
+            presenter.showError("ID tidak valid!");
             return;
+        }
 
         if (useCase.removeItem(id)) {
             presenter.showRemoveSuccess();
         } else {
             presenter.showRemoveFailed(id);
-        }
-    }
-
-    private Integer parseId(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            presenter.showInvalidId();
-            return null;
-        }
-    }
-
-    private Integer parseQuantity(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return null;
         }
     }
 

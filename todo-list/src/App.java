@@ -10,6 +10,12 @@ public class App {
         TodoUseCase useCase = new TodoUseCase(repository);
         TodoPresenter presenter = new TodoPresenter();
         TodoView view = new TodoView(useCase, presenter);
-        view.show();
+        try {
+            view.show();
+        } catch (framework.util.EndOfInputException e) {
+            System.out.println("\n" + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("\nTerjadi kesalahan yang tidak terduga: " + e.getMessage());
+        }
     }
 }

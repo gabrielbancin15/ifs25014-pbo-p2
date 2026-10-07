@@ -4,6 +4,7 @@ import domain.entity.Activity;
 import domain.entity.SortOption;
 import domain.repository.IActivityRepository;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class ActivityUseCase {
@@ -47,9 +48,9 @@ public class ActivityUseCase {
     }
 
     public List<Activity> searchActivities(String keyword) {
-        String lowerKeyword = keyword.toLowerCase();
+        String lowerKeyword = keyword.toLowerCase(Locale.ROOT);
         return repository.findAll().stream()
-                .filter(a -> a.getTitle().toLowerCase().contains(lowerKeyword))
+                .filter(a -> a.getTitle().toLowerCase(Locale.ROOT).contains(lowerKeyword))
                 .toList();
     }
 

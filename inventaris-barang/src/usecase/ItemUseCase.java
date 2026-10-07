@@ -4,6 +4,7 @@ import domain.entity.Item;
 import domain.entity.SortOption;
 import domain.repository.IItemRepository;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class ItemUseCase {
@@ -41,9 +42,9 @@ public class ItemUseCase {
     }
 
     public List<Item> searchItems(String keyword) {
-        String lowerKeyword = keyword.toLowerCase();
+        String lowerKeyword = keyword.toLowerCase(Locale.ROOT);
         return repository.findAll().stream()
-                .filter(i -> i.getName().toLowerCase().contains(lowerKeyword))
+                .filter(i -> i.getName().toLowerCase(Locale.ROOT).contains(lowerKeyword))
                 .toList();
     }
 

@@ -19,13 +19,13 @@ public class GuestView {
             presenter.showGuests(useCase.getAllGuests());
             printMenu();
             String input = InputUtil.input("Pilih");
-            switch (input) {
-                case "1" -> addGuest();
-                case "2" -> searchGuest();
-                case "3" -> removeGuest();
-                case "x" -> running = false;
-                default -> presenter.showInvalidChoice();
-            }
+                switch (input) {
+                    case "1" -> addGuest();
+                    case "2" -> searchGuest();
+                    case "3" -> removeGuest();
+                    case "x" -> running = false;
+                    default -> presenter.showInvalidChoice();
+                }
             if (running)
                 System.out.println();
         }
@@ -44,10 +44,18 @@ public class GuestView {
         String name = InputUtil.input("Nama (x Jika Batal)");
         if (name.equals("x"))
             return;
+        if (name.isBlank()) {
+            presenter.showError("Nama tidak boleh kosong!");
+            return;
+        }
 
         String purpose = InputUtil.input("Tujuan Kunjungan (x Jika Batal)");
         if (purpose.equals("x"))
             return;
+        if (purpose.isBlank()) {
+            presenter.showError("Tujuan kunjungan tidak boleh kosong!");
+            return;
+        }
 
         presenter.showAddSuccess(useCase.addGuest(name, purpose));
     }
@@ -66,23 +74,19 @@ public class GuestView {
         if (strId.equals("x"))
             return;
 
-        Integer id = parseId(strId);
-        if (id == null)
+        // Parsing ID dipusatkan di InputUtil untuk menghindari duplikasi
+        int id;
+        try {
+            id = Integer.parseInt(strId.trim());
+        } catch (NumberFormatException e) {
+            presenter.showError("ID tidak valid!");
             return;
+        }
 
         if (useCase.removeGuest(id)) {
             presenter.showRemoveSuccess();
         } else {
             presenter.showRemoveFailed(id);
-        }
-    }
-
-    private Integer parseId(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            presenter.showInvalidId();
-            return null;
         }
     }
 }

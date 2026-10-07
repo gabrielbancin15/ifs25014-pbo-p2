@@ -1,5 +1,7 @@
 package domain.entity;
 
+import java.util.Objects;
+
 public class Contact {
     private final int id;
     private String name;
@@ -21,4 +23,17 @@ public class Contact {
     public void changeName(String name) { this.name = name; }
     public void changePhone(String phone) { this.phone = phone; }
     public void changeEmail(String email) { this.email = email; }
+
+    /** Kesetaraan berdasarkan ID agar aman dikelola dalam koleksi. */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contact other)) return false;
+        return id == other.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

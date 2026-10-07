@@ -4,6 +4,7 @@ import domain.entity.Contact;
 import domain.entity.SortOption;
 import domain.repository.IContactRepository;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class ContactUseCase {
@@ -47,9 +48,9 @@ public class ContactUseCase {
     }
 
     public List<Contact> searchContacts(String keyword) {
-        String lowerKeyword = keyword.toLowerCase();
+        String lowerKeyword = keyword.toLowerCase(Locale.ROOT);
         return repository.findAll().stream()
-                .filter(c -> c.getName().toLowerCase().contains(lowerKeyword))
+                .filter(c -> c.getName().toLowerCase(Locale.ROOT).contains(lowerKeyword))
                 .toList();
     }
 

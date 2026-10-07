@@ -1,5 +1,7 @@
 package domain.entity;
 
+import java.util.Objects;
+
 public class Activity {
     private final int id;
     private String title;
@@ -21,4 +23,17 @@ public class Activity {
     public void changeTitle(String title) { this.title = title; }
     public void changeDay(String day) { this.day = day; }
     public void changeTime(String time) { this.time = time; }
+
+    /** Kesetaraan berdasarkan ID agar aman dikelola dalam koleksi. */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Activity other)) return false;
+        return id == other.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

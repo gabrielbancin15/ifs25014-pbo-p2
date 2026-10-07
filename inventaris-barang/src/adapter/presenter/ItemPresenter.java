@@ -55,15 +55,11 @@ public class ItemPresenter {
         System.out.println("[!] Pilihan tidak dimengerti.");
     }
 
-    public void showInvalidId() {
-        System.out.println("[!] ID tidak valid!");
-    }
-
     public void showInvalidSortOption() {
         System.out.println("[!] Pilihan tidak valid!");
     }
 
-    public void showInvalidQuantity() {
-        System.out.println("[!] Jumlah stok tidak valid!");
+    public void showError(String message) {
+        System.out.println("[!] " + message);
     }
 }

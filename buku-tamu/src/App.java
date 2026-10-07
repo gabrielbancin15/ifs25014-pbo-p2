@@ -11,6 +11,7 @@ import usecase.GuestUseCase;
  */
 public class App {
     public static void main(String[] args) {
+<<<<<<< HEAD
         // Layer adapter: implementasi konkret repository (penyimpanan in-memory)
         IGuestRepository guestRepository = new GuestRepository();
 
@@ -25,5 +26,18 @@ public class App {
 
         // Menjalankan loop menu utama aplikasi
         guestView.show();
+=======
+        IGuestRepository repository = new GuestRepository();
+        GuestUseCase useCase = new GuestUseCase(repository);
+        GuestPresenter presenter = new GuestPresenter();
+        GuestView view = new GuestView(useCase, presenter);
+        try {
+            view.show();
+        } catch (framework.util.EndOfInputException e) {
+            System.out.println("\n" + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("\nTerjadi kesalahan yang tidak terduga: " + e.getMessage());
+        }
+>>>>>>> 25ed260698a420d91dda95444012d41bf4a61474
     }
 }

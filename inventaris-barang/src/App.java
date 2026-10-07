@@ -16,6 +16,12 @@ public class App {
         ItemPresenter itemPresenter = new ItemPresenter();
         ItemView itemView = new ItemView(itemUseCase, itemPresenter);
 
-        itemView.show();
+        try {
+            itemView.show();
+        } catch (framework.util.EndOfInputException e) {
+            System.out.println("\nProgram dihentikan.");
+        } catch (Exception e) {
+            System.out.println("\n[!] Terjadi kesalahan yang tidak terduga: " + e.getMessage());
+        }
     }
 }

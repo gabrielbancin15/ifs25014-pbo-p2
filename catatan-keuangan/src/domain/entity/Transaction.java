@@ -1,6 +1,8 @@
 
 package domain.entity;
 
+import java.util.Objects;
+
 public class Transaction {
     private final int id;
     private String description;
@@ -22,4 +24,17 @@ public class Transaction {
     public void changeDescription(String description) { this.description = description; }
     public void changeAmount(double amount) { this.amount = amount; }
     public void changeType(TransactionType type) { this.type = type; }
+
+    /** Kesetaraan berdasarkan ID agar aman dikelola dalam koleksi. */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transaction other)) return false;
+        return id == other.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -5,7 +5,8 @@ import java.util.List;
 
 public class TodoPresenter {
     private String format(Todo t) {
-        String status = t.isDone() ? "[✓]" : "[ ]";
+        // Tampilkan status [✓] jika selesai, [ ] jika belum
+        String status = t.isFinished() ? "[✓]" : "[ ]";
         return String.format("%d | %s %s", t.getId(), status, t.getTitle());
     }
 
@@ -44,16 +45,16 @@ public class TodoPresenter {
         System.out.printf("[!] Gagal menghapus todo dengan ID: %d.%n", id);
     }
 
-    public void showMarkDoneSuccess() {
+    public void showMarkFinishedSuccess() {
         System.out.println("Berhasil menandai todo sebagai selesai.");
     }
 
-    public void showMarkUndoneSuccess() {
+    public void showMarkUnfinishedSuccess() {
         System.out.println("Berhasil menandai todo sebagai belum selesai.");
     }
 
     public void showMarkFailed(int id) {
-        System.out.printf("[!] Todo dengan ID: %d tidak ditemukan.%n", id);
+        System.out.printf("[!] Gagal mengubah/menandai todo dengan ID: %d.%n", id);
     }
 
     public void showEditSuccess() {
@@ -61,18 +62,18 @@ public class TodoPresenter {
     }
 
     public void showEditFailed(int id) {
-        System.out.printf("[!] Todo dengan ID: %d tidak ditemukan.%n", id);
+        System.out.printf("[!] Gagal mengubah/menandai todo dengan ID: %d.%n", id);
     }
 
     public void showInvalidChoice() {
         System.out.println("[!] Pilihan tidak dimengerti.");
     }
 
-    public void showInvalidId() {
-        System.out.println("[!] ID tidak valid!");
-    }
-
     public void showInvalidSortOption() {
         System.out.println("[!] Pilihan urutan tidak valid!");
+    }
+
+    public void showError(String message) {
+        System.out.println("[!] " + message);
     }
 }

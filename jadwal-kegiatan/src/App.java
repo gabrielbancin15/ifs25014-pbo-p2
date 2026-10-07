@@ -16,6 +16,12 @@ public class App {
         ActivityPresenter activityPresenter = new ActivityPresenter();
         ActivityView activityView = new ActivityView(activityUseCase, activityPresenter);
 
-        activityView.show();
+        try {
+            activityView.show();
+        } catch (framework.util.EndOfInputException e) {
+            System.out.println("\nProgram dihentikan.");
+        } catch (Exception e) {
+            System.out.println("\n[!] Terjadi kesalahan yang tidak terduga: " + e.getMessage());
+        }
     }
 }

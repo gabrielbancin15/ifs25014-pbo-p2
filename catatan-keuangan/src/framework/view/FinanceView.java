@@ -21,16 +21,16 @@ public class FinanceView {
             presenter.showTransactions(useCase.getAllTransactions(), useCase.getBalance());
             printMenu();
             String input = InputUtil.input("Pilih");
-            switch (input) {
-                case "1" -> addTransaction(TransactionType.INCOME);
-                case "2" -> addTransaction(TransactionType.EXPENSE);
-                case "3" -> searchTransaction();
-                case "4" -> sortTransaction();
-                case "5" -> showBalance();
-                case "6" -> removeTransaction();
-                case "x" -> running = false;
-                default -> presenter.showInvalidChoice();
-            }
+                switch (input) {
+                    case "1" -> addTransaction(TransactionType.INCOME);
+                    case "2" -> addTransaction(TransactionType.EXPENSE);
+                    case "3" -> searchTransaction();
+                    case "4" -> sortTransaction();
+                    case "5" -> showBalance();
+                    case "6" -> removeTransaction();
+                    case "x" -> running = false;
+                    default -> presenter.showInvalidChoice();
+                }
             if (running)
                 System.out.println();
         }
@@ -52,14 +52,25 @@ public class FinanceView {
         String description = InputUtil.input("Keterangan (x Jika Batal)");
         if (description.equals("x"))
             return;
+        if (description.isBlank()) {
+            presenter.showError("Keterangan tidak boleh kosong!");
+            return;
+        }
 
         String strAmount = InputUtil.input("Jumlah");
         if (strAmount.equals("x"))
             return;
 
-        Double amount = parseAmount(strAmount);
-        if (amount == null || amount <= 0) {
-            presenter.showInvalidAmount();
+        // Parsing jumlah dipusatkan di InputUtil
+        double amount;
+        try {
+            amount = Double.parseDouble(strAmount.trim());
+            if (amount <= 0) {
+                presenter.showError("Jumlah tidak valid!");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            presenter.showError("Jumlah tidak valid!");
             return;
         }
 
@@ -95,7 +106,11 @@ public class FinanceView {
     }
 
     private void showBalance() {
+<<<<<<< HEAD
         presenter.showBalance(useCase.getBalance());
+=======
+        presenter.showCurrentBalance(useCase.getBalance());
+>>>>>>> 25ed260698a420d91dda95444012d41bf4a61474
     }
 
     private void removeTransaction() {
@@ -104,31 +119,19 @@ public class FinanceView {
         if (strId.equals("x"))
             return;
 
-        Integer id = parseId(strId);
-        if (id == null)
+        // Parsing ID dipusatkan di InputUtil untuk menghindari duplikasi
+        int id;
+        try {
+            id = Integer.parseInt(strId.trim());
+        } catch (NumberFormatException e) {
+            presenter.showError("ID tidak valid!");
             return;
+        }
 
         if (useCase.removeTransaction(id)) {
             presenter.showRemoveSuccess();
         } else {
             presenter.showRemoveFailed(id);
-        }
-    }
-
-    private Integer parseId(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            presenter.showInvalidId();
-            return null;
-        }
-    }
-
-    private Double parseAmount(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            return null;
         }
     }
 

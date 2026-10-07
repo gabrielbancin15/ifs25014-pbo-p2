@@ -16,6 +16,12 @@ public class App {
         ContactPresenter contactPresenter = new ContactPresenter();
         ContactView contactView = new ContactView(contactUseCase, contactPresenter);
 
-        contactView.show();
+        try {
+            contactView.show();
+        } catch (framework.util.EndOfInputException e) {
+            System.out.println("\nProgram dihentikan.");
+        } catch (Exception e) {
+            System.out.println("\n[!] Terjadi kesalahan yang tidak terduga: " + e.getMessage());
+        }
     }
 }

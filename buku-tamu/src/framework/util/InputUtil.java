@@ -8,7 +8,7 @@ public class InputUtil {
     public static String input(String info) {
         System.out.print(info + " : ");
         if (!scanner.hasNextLine()) {
-            System.exit(0);
+            throw new EndOfInputException("Input ditutup.");
         }
         return scanner.nextLine();
     }
